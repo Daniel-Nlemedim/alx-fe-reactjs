@@ -1,3 +1,4 @@
+import UserDetails from "./UserDetails";
 import UserInfo from "./UserInfo";
 
 const UserProfile = () => {
@@ -5,6 +6,7 @@ const UserProfile = () => {
     <div>
       <h2>User Profile</h2>
       <UserInfo />
+      <UserDetails />
     </div>
   );
 };
