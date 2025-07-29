@@ -1,4 +1,3 @@
-import UserDetails from "./UserDetails";
 import UserInfo from "./UserInfo";
 
 const UserProfile = () => {
