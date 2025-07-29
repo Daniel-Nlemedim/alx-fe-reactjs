@@ -1,6 +1,6 @@
 import React from "react";
 import UserProfile from "./UserProfile";
-import UserContext from "../context/UserContext";
+import UserContext from "./UserContext";
 
 function App() {
   const userData = {
