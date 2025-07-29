@@ -6,7 +6,6 @@ const UserProfile = () => {
     <div>
       <h2>User Profile</h2>
       <UserInfo />
-      <UserDetails />
     </div>
   );
 };
