@@ -1,6 +1,30 @@
 import { useState } from "react";
 
 function Contact() {
+  const styles = {
+    form: {
+      display: "flex",
+      flexDirection: "column",
+      maxWidth: "400px",
+      margin: "auto",
+      padding: "20px",
+    },
+    input: {
+      marginBottom: "10px",
+      padding: "10px",
+      fontSize: "16px",
+      display: "block",
+      width: "100%",
+    },
+    button: {
+      padding: "10px",
+      backgroundColor: "#282c34",
+      color: "white",
+      border: "none",
+      cursor: "pointer",
+    },
+  };
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -19,8 +43,9 @@ function Contact() {
   return (
     <div style={{ padding: "20px" }}>
       <h1>Contact Us</h1>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} style={styles.form}>
         <input
+          styles={styles.input}
           type="text"
           name="name"
           placeholder="Your Name"
@@ -29,12 +54,12 @@ function Contact() {
           style={{ display: "block", margin: "10px 0" }}
         />
         <input
+          styles={styles.input}
           type="email"
           name="email"
           placeholder="Your Email"
           value={formData.email}
           onChange={handleChange}
-          style={{ display: "block", margin: "10px 0" }}
         />
         <textarea
           name="message"
@@ -43,7 +68,9 @@ function Contact() {
           onChange={handleChange}
           style={{ display: "block", margin: "10px 0" }}
         />
-        <button type="submit">Send Message</button>
+        <button type="submit" style={styles.button}>
+          Send Message
+        </button>
       </form>
     </div>
   );
