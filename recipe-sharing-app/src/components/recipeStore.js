@@ -1,26 +1,44 @@
+// recipeStore.js
 import { create } from "zustand";
 
 const useRecipeStore = create((set) => ({
   recipes: [],
   searchTerm: "",
-  setSearchTerm: (term) => set({ searchTerm: term }),
   filteredRecipes: [],
-  filterRecipes: () =>
-    set((state) => ({
-      filteredRecipes: state.recipes.filter((recipe) =>
-        recipe.title.toLowerCase().includes(state.searchTerm.toLowerCase())
-      ),
-    })),
+
+  // This is the modified function
+  setSearchTerm: (term) =>
+    set((state) => {
+      // 1. Update the searchTerm
+      // 2. Filter the recipes immediately based on the new term
+      const filtered = state.recipes.filter((recipe) =>
+        recipe.title.toLowerCase().includes(term.toLowerCase())
+      );
+      return {
+        searchTerm: term,
+        filteredRecipes: filtered,
+      };
+    }),
+
   addRecipe: (newRecipe) =>
     set((state) => {
+      // ... (existing logic for adding a recipe)
       const recipeWithId = {
         ...newRecipe,
         id: Date.now(),
       };
-
       const updatedRecipes = [...state.recipes, recipeWithId];
 
-      return { recipes: updatedRecipes, filteredRecipes: updatedRecipes };
+      // Also filter the new list of recipes to keep the view consistent
+      const filtered = updatedRecipes.filter((recipe) =>
+        recipe.title.toLowerCase().includes(state.searchTerm.toLowerCase())
+      );
+
+      return {
+        recipes: updatedRecipes,
+        filteredRecipes: filtered,
+      };
     }),
 }));
+
 export default useRecipeStore;
