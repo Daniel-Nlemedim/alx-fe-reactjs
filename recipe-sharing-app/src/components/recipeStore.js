@@ -11,5 +11,16 @@ const useRecipeStore = create((set) => ({
         recipe.title.toLowerCase().includes(state.searchTerm.toLowerCase())
       ),
     })),
+  addRecipe: (newRecipe) =>
+    set((state) => {
+      const recipeWithId = {
+        ...newRecipe,
+        id: Date.now(),
+      };
+
+      const updatedRecipes = [...state.recipes, recipeWithId];
+
+      return { recipes: updatedRecipes, filteredRecipes: updatedRecipes };
+    }),
 }));
 export default useRecipeStore;

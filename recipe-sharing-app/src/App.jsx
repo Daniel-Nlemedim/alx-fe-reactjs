@@ -6,15 +6,16 @@ import "./App.css";
 
 function App() {
   return (
-    <>
-      <Router>
+    <Router>
+      <div>
+        <AddRecipeForm />
+        <SearchBar />
+
         <Routes>
           <Route path="/" element={<RecipeList />} />
-          <Route path="/search" element={<SearchBar />} />
         </Routes>
-      </Router>
-      <AddRecipeForm />
-    </>
+      </div>
+    </Router>
   );
 }
 

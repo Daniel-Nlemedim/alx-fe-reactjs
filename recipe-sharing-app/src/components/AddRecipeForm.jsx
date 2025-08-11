@@ -54,9 +54,11 @@ const AddRecipeForm = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    addRecipe({ id: Date.now(), title, description });
+    if (!title.trim() || !description.trim()) return;
+    addRecipe({ title, description });
     setTitle("");
     setDescription("");
+    // alert("Recipe added successfully!");
   };
 
   return (
