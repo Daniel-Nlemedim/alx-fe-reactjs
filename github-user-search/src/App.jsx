@@ -1,13 +1,12 @@
 import "./App.css";
-import Home from "./components/Home";
-
+import Search from "./components/Search";
 function App() {
   return (
     <>
-      <div>
-        <Home />
-      </div>
       <h1>GitHub User Search</h1>
+      <div>
+        <Search />
+      </div>
     </>
   );
 }
