@@ -33,7 +33,11 @@ export default function Search() {
 
   return (
     <div className="max-w-3xl mx-auto p-6 bg-white shadow rounded-lg mt-8">
-      <h1 className="text-2xl font-bold mb-4">GitHub User Search</h1>
+      <div>
+        <h1 className="text-2xl font-bold mb-4 flex justify-center">
+          GitHub User Search
+        </h1>
+      </div>
 
       {/* Search Form */}
       <form
