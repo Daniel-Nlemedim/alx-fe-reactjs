@@ -1,76 +1,114 @@
 import React, { useState } from "react";
 import { fetchUserData } from "../services/githubService";
 
-const InputStyle = {
-  width: "100%",
-  padding: "10px",
-  borderRadius: "5px",
-  border: "1px solid #ccc",
-  fontSize: "16px",
-};
-
-const Search = () => {
+export default function Search() {
   const [username, setUsername] = useState("");
-  const [userData, setUserData] = useState(null);
-  const [error, setError] = useState("");
+  const [location, setLocation] = useState("");
+  const [minRepos, setMinRepos] = useState("");
+  const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleSearch = async (event) => {
-    event.preventDefault();
+  const handleSearch = async (e) => {
+    e.preventDefault();
+
+    if (!username.trim() && !location.trim() && !minRepos.trim()) {
+      setError("Please enter at least one search criteria.");
+      return;
+    }
+
     setLoading(true);
     setError("");
-    setUserData(null);
+    setUsers([]);
 
     try {
-      const data = await fetchUserData(username);
-      setUserData(data);
-    } catch (err) {
-      setError("Looks like we cant find the user");
+      const results = await fetchUserData({ username, location, minRepos });
+      setUsers(results.items || []);
+    } catch {
+      setError("Looks like we can’t find the user.");
     } finally {
       setLoading(false);
     }
-    if (!username.trim()) {
-      setError("Please enter a GitHub username before searching");
-      return;
-    }
-  };
-
-  const handleInputChange = (event) => {
-    setUsername(event.target.value);
   };
 
   return (
-    <div>
-      <form onSubmit={handleSearch}>
+    <div className="max-w-3xl mx-auto p-6 bg-white shadow rounded-lg mt-8">
+      <h1 className="text-2xl font-bold mb-4">GitHub User Search</h1>
+
+      {/* Search Form */}
+      <form
+        onSubmit={handleSearch}
+        className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6"
+      >
         <input
-          style={InputStyle}
           type="text"
+          placeholder="Username"
           value={username}
-          onChange={handleInputChange}
-          placeholder="Search GitHub users..."
+          onChange={(e) => setUsername(e.target.value)}
+          className="border rounded p-2 focus:ring-2 focus:ring-blue-500"
         />
-        <button type="submit">Submit</button>
+        <input
+          type="text"
+          placeholder="Location"
+          value={location}
+          onChange={(e) => setLocation(e.target.value)}
+          className="border rounded p-2 focus:ring-2 focus:ring-blue-500"
+        />
+        <input
+          type="number"
+          placeholder="Min Repos"
+          value={minRepos}
+          onChange={(e) => setMinRepos(e.target.value)}
+          className="border rounded p-2 focus:ring-2 focus:ring-blue-500"
+        />
+
+        <button
+          type="submit"
+          className="md:col-span-3 bg-blue-600 text-white rounded p-2 hover:bg-blue-700 transition"
+        >
+          Search
+        </button>
       </form>
 
-      {loading && <div className="spinner"></div>}
+      {/* Conditional Rendering */}
+      {loading && (
+        <div className="flex justify-center items-center mb-4">
+          <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+        </div>
+      )}
+      {error && <p className="text-red-600">{error}</p>}
 
-      {error && <p style={{ color: "red" }}> {error} </p>}
-
-      {userData && (
-        <div style={{ marginTop: "20px" }}>
-          <img
-            src={userData.avatar_url}
-            alt={userData.login}
-            style={{ width: "100px", borderRadius: "50%" }}
-          />
-          <h2>{userData.name || userData.login}</h2>
-          <a href={userData.html_url} target="_blank" rel="noreferrer">
-            View Github Profile
-          </a>
+      {/* Results */}
+      {users.length > 0 && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {users.map((user) => (
+            <div
+              key={user.id}
+              className="p-4 border rounded flex items-center gap-4 hover:shadow-md transition"
+            >
+              <img
+                src={user.avatar_url}
+                alt={user.login}
+                className="w-16 h-16 rounded-full"
+              />
+              <div>
+                <h2 className="text-lg font-semibold">{user.login}</h2>
+                {user.location && (
+                  <p className="text-sm text-gray-600">📍 {user.location}</p>
+                )}
+                <a
+                  href={user.html_url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-blue-500 text-sm hover:underline"
+                >
+                  View Profile
+                </a>
+              </div>
+            </div>
+          ))}
         </div>
       )}
     </div>
   );
-};
-
-export default Search;
+}
