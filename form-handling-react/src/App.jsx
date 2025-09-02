@@ -1,9 +1,11 @@
-import RegistrationForm from "./components/RegistrationForm";
+// import RegistrationForm from "./components/RegistrationForm";
+import FormikForm from "./components/FormikForm";
 
 function App() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-200">
-      <RegistrationForm />
+      {/* <RegistrationForm /> */}
+      <FormikForm />
     </div>
   );
 }
