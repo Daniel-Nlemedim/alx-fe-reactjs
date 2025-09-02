@@ -17,29 +17,33 @@ function RegistrationForm() {
     }));
   };
 
-  if (!formData.username || !formData.email || formData.password) {
-    setError("All fields are required");
-    return;
-  }
-
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    setError("");
+    //  Validation inside handleSubmit
+    if (!formData.username || !formData.email || !formData.password) {
+      setError("All fields are required");
+      return;
+    }
 
-    //clears forms after submission
+    setError("");
+    alert("Registration successful!");
+
+    // Clear form after submission
     setFormData({
       username: "",
-      password: "",
       email: "",
+      password: "",
     });
   };
 
   return (
     <div>
       <h2>Register</h2>
-      {error && <p>{error}</p>}
+      {error && <p style={{ color: "red" }}>{error}</p>}
+
       <form onSubmit={handleSubmit}>
+        {/* Username */}
         <div>
           <label className="block text-grey-700">Username</label>
           <input
@@ -52,6 +56,7 @@ function RegistrationForm() {
           />
         </div>
 
+        {/* Email */}
         <div>
           <label className="block text-grey-700">Email</label>
           <input
@@ -64,10 +69,11 @@ function RegistrationForm() {
           />
         </div>
 
+        {/* Password */}
         <div>
           <label className="block text-grey-700">Password</label>
           <input
-            type="text"
+            type="password"
             name="password"
             value={formData.password}
             onChange={handleChange}
