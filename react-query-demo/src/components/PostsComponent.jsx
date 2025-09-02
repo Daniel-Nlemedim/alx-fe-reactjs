@@ -1,43 +1,51 @@
+// src/components/PostsComponent.jsx
+import React from "react";
 import { useQuery } from "@tanstack/react-query";
 
-// Fetch function
-const fetchPosts = async () => {
+async function fetchPosts() {
   const response = await fetch("https://jsonplaceholder.typicode.com/posts");
   if (!response.ok) {
     throw new Error("Network response was not ok");
   }
   return response.json();
-};
+}
 
 function PostsComponent() {
-  const {
-    data: posts,
-    error,
-    isLoading,
-    isError,
-    refetch,
-  } = useQuery({
-    queryKey: ["posts"], // cache key
-    queryFn: fetchPosts,
-    staleTime: 5000, // cache validity
-  });
+  // Using useQuery with caching and other options
+  const { data, isLoading, isError, error, refetch, isFetching } = useQuery(
+    ["posts"],
+    fetchPosts,
+    {
+      cacheTime: 1000 * 60 * 5, // 5 minutes (how long data stays in cache before garbage collection)
+      refetchOnWindowFocus: false, // Disable auto refetch when tab regains focus
+      keepPreviousData: true, // Keeps old data while fetching new data
+    }
+  );
 
-  if (isLoading) return <p className="text-blue-500">Loading posts...</p>;
-  if (isError) return <p className="text-red-500">Error: {error.message}</p>;
+  if (isLoading) return <p>Loading posts...</p>;
+  if (isError) return <p>Error: {error.message}</p>;
 
   return (
-    <div className="max-w-2xl mx-auto mt-6">
+    <div className="p-6">
+      <h2 className="text-2xl font-bold mb-4">Posts</h2>
+
+      {/* Refetch button */}
       <button
         onClick={() => refetch()}
-        className="mb-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+        className="mb-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
       >
         Refetch Posts
       </button>
 
-      <ul className="space-y-3">
-        {posts.slice(0, 10).map((post) => (
-          <li key={post.id} className="p-4 border rounded shadow">
-            <h3 className="font-bold">{post.title}</h3>
+      {isFetching && <p className="text-gray-500">Updating...</p>}
+
+      <ul className="space-y-2">
+        {data.map((post) => (
+          <li
+            key={post.id}
+            className="p-3 border rounded-md shadow-sm bg-white"
+          >
+            <h3 className="font-semibold">{post.title}</h3>
             <p>{post.body}</p>
           </li>
         ))}
