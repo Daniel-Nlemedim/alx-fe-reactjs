@@ -11,12 +11,15 @@ function RegistrationForm() {
 
     if (!username) {
       setError("Username is required");
+      return;
     }
     if (!email) {
       setError("Email is require");
+      return;
     }
     if (!password) {
       setError("Password is required");
+      return;
     }
 
     setError("");
