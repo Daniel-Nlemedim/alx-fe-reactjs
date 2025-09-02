@@ -4,25 +4,25 @@ function RegistrationForm() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [errors, setErrors] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     if (!username) {
-      setError("Username is required");
+      setErrors("Username is required");
       return;
     }
     if (!email) {
-      setError("Email is require");
+      setErrors("Email is require");
       return;
     }
     if (!password) {
-      setError("Password is required");
+      setErrors("Password is required");
       return;
     }
 
-    setError("");
+    setErrors("");
     alert("Registration successful!");
 
     setUsername("");
@@ -33,7 +33,7 @@ function RegistrationForm() {
   return (
     <div>
       <h2>Register</h2>
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      {errors && <p style={{ color: "red" }}>{errors}</p>}
 
       <form onSubmit={handleSubmit}>
         <div>
