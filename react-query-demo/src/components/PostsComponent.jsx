@@ -19,6 +19,7 @@ function PostsComponent() {
       cacheTime: 1000 * 60 * 5, // 5 minutes (how long data stays in cache before garbage collection)
       refetchOnWindowFocus: false, // Disable auto refetch when tab regains focus
       keepPreviousData: true, // Keeps old data while fetching new data
+      staleTime: false,
     }
   );
 
