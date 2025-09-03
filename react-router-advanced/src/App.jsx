@@ -10,11 +10,7 @@ import Profile from "./components/Profile";
 import Login from "./components/Login";
 import Home from "./components/Home";
 import { useState } from "react";
-
-// Protected Route wrapper
-function ProtectedRoute({ children, isAuthenticated }) {
-  return isAuthenticated ? children : <Navigate to="/login" replace />;
-}
+import ProtectedRoute from "./components/ProjectedRoute";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
