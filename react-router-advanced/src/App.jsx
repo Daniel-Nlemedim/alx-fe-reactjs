@@ -10,7 +10,7 @@ import Profile from "./components/Profile";
 import Login from "./components/Login";
 import Home from "./components/Home";
 import { useState } from "react";
-import ProtectedRoute from "./components/ProjectedRoute";
+import ProtectedRoute from "./components/ProtectedRoute.jsx";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
