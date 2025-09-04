@@ -1,4 +1,3 @@
-// src/__tests__/TodoList.test.js
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom";
@@ -24,8 +23,10 @@ describe("TodoList Component", () => {
   test("toggles a todo", () => {
     render(<TodoList />);
     const todo = screen.getByText("Learn React");
+
     fireEvent.click(todo);
 
+    // ✅ uses inline style, not class
     expect(todo).toHaveStyle("text-decoration: line-through");
   });
 
