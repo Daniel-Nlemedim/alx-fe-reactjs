@@ -1,4 +1,3 @@
-// recipeStore.js
 import { create } from "zustand";
 
 const useRecipeStore = create((set) => ({
@@ -15,6 +14,7 @@ const useRecipeStore = create((set) => ({
     set((state) => ({
       favorites: state.favorites.filter((id) => id !== recipeId),
     })),
+
   recommendations: [],
   generateRecommendations: () =>
     set((state) => {
@@ -26,8 +26,6 @@ const useRecipeStore = create((set) => ({
 
   setSearchTerm: (term) =>
     set((state) => {
-      // 1. Update the searchTerm
-      // 2. Filter the recipes immediately based on the new term
       const filtered = state.recipes.filter((recipe) =>
         recipe.title.toLowerCase().includes(term.toLowerCase())
       );
@@ -39,18 +37,37 @@ const useRecipeStore = create((set) => ({
 
   addRecipe: (newRecipe) =>
     set((state) => {
-      // ... (existing logic for adding a recipe)
-      const recipeWithId = {
-        ...newRecipe,
-        id: Date.now(),
-      };
+      const recipeWithId = { ...newRecipe, id: Date.now() };
       const updatedRecipes = [...state.recipes, recipeWithId];
-
-      // Also filter the new list of recipes to keep the view consistent
       const filtered = updatedRecipes.filter((recipe) =>
         recipe.title.toLowerCase().includes(state.searchTerm.toLowerCase())
       );
+      return {
+        recipes: updatedRecipes,
+        filteredRecipes: filtered,
+      };
+    }),
 
+  updateRecipe: (id, updatedData) =>
+    set((state) => {
+      const updatedRecipes = state.recipes.map((recipe) =>
+        recipe.id === id ? { ...recipe, ...updatedData } : recipe
+      );
+      const filtered = updatedRecipes.filter((recipe) =>
+        recipe.title.toLowerCase().includes(state.searchTerm.toLowerCase())
+      );
+      return {
+        recipes: updatedRecipes,
+        filteredRecipes: filtered,
+      };
+    }),
+
+  deleteRecipe: (id) =>
+    set((state) => {
+      const updatedRecipes = state.recipes.filter((recipe) => recipe.id !== id);
+      const filtered = updatedRecipes.filter((recipe) =>
+        recipe.title.toLowerCase().includes(state.searchTerm.toLowerCase())
+      );
       return {
         recipes: updatedRecipes,
         filteredRecipes: filtered,
