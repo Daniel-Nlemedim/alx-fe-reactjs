@@ -6,6 +6,8 @@ import RecipeDetail from "./components/RecipeDetail";
 import RecommendationsList from "./components/RecommendationsList";
 import FavoritesList from "./components/FavoritesList";
 import HomeBtn from "./components/HomeBtn";
+import EditRecipeForm from "./components/EditRecipeForm";
+
 import "./App.css";
 
 function App() {
@@ -21,6 +23,7 @@ function App() {
           <Route path="/recipe/:id" element={<RecipeDetail />} />
           <Route path="/recommendations" element={<RecommendationsList />} />
           <Route path="/favorites" element={<FavoritesList />} />
+          <Route path="/recipes/:id/edit" element={<EditRecipeForm />} />
           <Route path="*" element={<div>Page Not Found</div>} />
         </Routes>
         <HomeBtn />
