@@ -30,8 +30,8 @@ const EditRecipeForm = () => {
 
   if (!recipe) return <div className="p-4">Recipe not found.</div>;
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = (event) => {
+    event.preventDefault();
     const payload = {
       title: title.trim(),
       description: description.trim(),
